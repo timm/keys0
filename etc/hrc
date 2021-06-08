@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+
+alias ..='cd ..'
+alias ...='cd ../../../'
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias gp="git add *;git commit -am save;git push;git status"
+alias julia="julia -O0 --compile=min --startup=no  "
+alias hello="git pull"
+alias bye="gp; tmux detach"
+alias h="history"
+alias hh=". $Etc/etc/h"
+alias ls="ls -G"
+alias tmux="tmux -f $Etc/etc/tmux-conf "
+alias vi="vim -u $Etc/etc/vimrc "
+alias vims="vim +PluginInstall +qall"         
+
+doc() {
+   cd $Etc
+   for f in *.jl; do 
+     g=$Etc/docs/${f%.jl}.md
+     echo "# $f ..." 
+     gawk -f $Etc/etc/prep.awk $f > $g
+   done
+   sep=""
+   echo "" > $Etc/docs/_includes/localtoc.html
+   cd $Etc
+   for f in *.jl;do
+     g=${f%.jl}
+     echo  "$sep<a href=\"$g\">$g</a>" >> $Etc/docs/_includes/localtoc.html
+     sep=" | "
+   done
+}
+
+here() { cd $1; basename `pwd`; }
+
+PROMPT_COMMAND='echo -ne "🧢 $(git branch 2>/dev/null | grep '^*' | colrm 1 2):";PS1="$(here ..)/$(here .):\!\e[m ▶ "'
+
+hi() {
+tput bold; tput setaf 5
+cat<<'EOF'
+             ___       _         _       _ _       
+            |__ \     (_)       (_)     | (_)      
+  ___  _ __    ) |__ _ _         _ _   _| |_  __ _ 
+ / _ \| '_ \  / // _` | |       | | | | | | |/ _` |
+| (_) | | | |/ /| (_| | |  _    | | |_| | | | (_| |
+ \___/|_| |_|____\__,_|_| (_)   | |\__,_|_|_|\__,_|
+                               _/ |                
+                              |__/                 
+
+EOF
+tput bold; tput setaf 241
+echo "Short cuts:"
+alias | sed 's/alias /  /'
+echo ""
+tput sgr0
+}
+
+mytmux() {
+  session=$RANDOM
+  Tmux=$(which tmux)
+  $Tmux start-server
+  sleep 1
+  $Tmux new-session -d -s $session  
+  $Tmux send-keys "sleep 0.5; bash $Etc/etc/h"   C-m
+
+  $Tmux splitw -h -p 20
+  $Tmux selectp -t 1
+  $Tmux send-keys "sleep 0.5; bash $Etc/etc/h"   C-m
+
+  $Tmux splitw -l 3
+  $Tmux selectp -t 2
+  $Tmux send-keys "htop "   C-m
+
+  $Tmux selectp -t 0
+
+  $Tmux attach-session -t $session
+}
+
+if [ -z "$TMUX" ]; then
+  mytmux
+else
+  clear; hi
+fi
