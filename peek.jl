@@ -1,12 +1,12 @@
 # vim: set et ts=2 sw=2;
 
 # Non-parametric optimizers
-include("on2tools.jl")
+include("lib.jl")
 
 # ## Config
 @with_kw mutable struct It
   data = (file="auto93.csv", dir="data",some=128,best=.75)
-  char = (skip='?',less='<',more='>',num=':',klass='!')
+  char = (skip='?',less='-',more='+',num=':',klass='!')
   str  = (skip="?")
   some = (max=64,bins=.5, cohen=0.3, trivial=1.05)
   divs = (few=126)
@@ -87,7 +87,7 @@ function tag(t::Table)
   function gt(row1, row2)
     "Zitler's continous domination predicate (from IBEA, 2005)."
     s1, s2, n = 0, 0, length(t.ys)
-    for col in t.ysz
+    for col in t.ys
       a, b = row1.has[col.pos], row2.has[col.pos]
       a, b = norm(col, a), norm(col, b)
       s1  -= ℯ ^ (col.w * (a - b) / n)
@@ -110,59 +110,49 @@ function tag(t::Table)
    lo=typemax(Int); hi=typemin(Int); _has=[] end
 
 o(i::Span) = 
-  if     i.lo <= typemin(Int)  "<= $(i.hi)" 
-  elseif i.hi <= typemax(Int)  ">= $(i.lp)" 
-  else "[$(i.lo)..$(i.hi)]" end
+  if     i.lo <= typemin(Int) "<= $(i.hi)" 
+  elseif i.hi <= typemax(Int) ">= $(i.lp)" 
+  else   "[$(i.lo)..$(i.hi)]" end
 
-function discretize(x::Some, t:Table)
-  function div(xsmall,ysmall,ymin,xy)
-    n = length(xy) * the data.xchop
-    while n < 4 && n <= length(xy)/2 n+= 1.2 end
-    n, now, tmp = int(n), int(n), []
-    b4, span    = 1, Span(lo=xy[1][1])
-    while now < length(xy) - n
-      x=xy[now][1]
-      span.hi = x
-      now += 1
-      if (now - b4 => n    && now < len(xy) - 2 && 
-          x != xy[now][1]  && span.hi - span.lo > xsmall) 
-        span._has= [z[2] for z in xy[b4:now]]
-        tmp += [span]
-        span = Span(lo=xy[now][1])
-        b4   = now
-        now += n end end
-     tmp += [Span(lo=xy[b4][1],hi=xy[end][1],
-                  _has=[z[2] for z in xy[b4:]])]
-     merge(tmp,ysmall,ymin) end 
- 
-  function merge(b4, ysmall, ymin)
-    j, now = 0, []
-    while j < length(b4)
-      a=b4[j]
-      if j < length(b4)
-        b = b4[j+1]
-        c  = combine(a._has,b._has, ysmall, ymin)
-        if c != nothing
-          now += [Span(lo=a.lo,hi=
-    end 
-    length(now) == length(b4) ? b4 : merge(now,ymin,small) 
-
-  for row in rows:
-    inc!(y, row.gt)
-    push!(xy, (row.has[x.pos], row.gt)) end
-  tmp = div(var(x)*it.some.xsmall,
-            var(y)*it.some.ysmall,
-            per(all(y), it.data.best),
-            sort(xy))
-  tmp[1].lo = typemin(Int)
-  tmp[end].hi = typemax(Int)
-  tmp end 
- 
-
-# ## Tests
-function run() 
-  t=tag(data("auto.csv"))
-  for r in sort(t.rows, by = x -> x.gt)
-    print(r.tag) end end
-
-# ## Command line
+#function discretize(x::Some, t:Table)
+  # function div(xsmall,ysmall,ymin,xy) 
+  #   n = length(xy) * the data.xchop
+  #   #while n < 4 && n <= length(xy)/2 n+= 1.2 end
+  #   n, now, tmp = int(n), int(n), []
+  #   b4, span    = 1, Span(lo=xy[1][1])
+  #   while now < length(xy) - n
+  #     x=xy[now][1]
+  #     span.hi = x
+  #     now += 1
+  #     if (now - b4 => n    && now < len(xy) - 2 && 
+  #         x != xy[now][1]  && span.hi - span.lo > xsmall) 
+  #       span._has= [z[2] for z in xy[b4:now]]
+  #       tmp += [span]
+  #       span = Span(lo=xy[now][1])
+  #       b4   = now
+  #       now += n end end
+  #    tmp += [Span(lo=xy[b4][1],hi=xy[end][1],
+  #                 _has=[z[2] for z in xy[b4:]])]
+  #    merge(tmp,ysmall,ymin) end 
+  #
+  # function merge(b4, ysmall, ymin)
+  #   j, now = 0, []
+  #   while j < length(b4)
+  #     a=b4[j]
+  #     if j < length(b4)
+  #       b = b4[j+1]
+  #       c  = combine(a._has,b._has, ysmall, ymin)
+  #       if c != nothing
+  #         now += [Span(lo=a.lo,hi=b.hi,_has=c)] end
+  #   length(now) == length(b4) ? b4 : merge(now,ymin,small) end 
+  #
+  # for row in rows
+  #   inc!(y, row.gt)
+  #   push!(xy, (row.has[x.pos], row.gt)) end
+  #   tmp = div(var(x)*it.some.xsmall,
+  #           var(y)*it.some.ysmall,
+  #           per(all(y), it.data.best),
+  #           sort(xy)) end
+  # tmp[1].lo = typemin(Int)
+  # tmp[end].hi = typemax(Int)
+  # tmp end 
