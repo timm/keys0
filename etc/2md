@@ -1,0 +1,19 @@
+#!/usr/bin/env  gawk -f
+
+BEGIN { nil = "^[ \t]*$"
+  b4=1 # true if in  comment
+  last=""
+}
+/# vim:/ { next }
+{ now = gsub(/^#/,"")
+  if (! (last ~ nil  && now && !b4) ) 
+    print  last
+  if (now != b4) 
+    print  now  ? "```\n" : "\n```julia" 
+  last = $0
+  b4 = now  
+}
+END { 
+  if (last !~ nil)  print last
+  if (!b4) print "```"
+}
