@@ -40,8 +40,8 @@ function inc!(i,x)
   end
   x==it.char.skip ? x : begin i.n += 1; inc1!(i,x); x end end
 
-function mid(i::Sym) i.mode end
-function var(i::Sym) sum(-v/i.n*log(2,v/i.n) for (_,v) in i.seen) end
+mid(i::Sym) = i.mode 
+var(i::Sym) = sum(-v/i.n*log(2,v/i.n) for (_,v) in i.seen) 
 
 function mid( i::Some)   a=all(i); per(a,.5) end
 function var( i::Some)   a=all(i); (per(a,.9) - per(a,.1)) / 2.56 end
