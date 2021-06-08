@@ -31,7 +31,7 @@ no = nothing
 ```
 
 -------------------------------------------------------------------
- ## Columns
+## Columns
  Count all the symbols. Keep a sample of the numbers.
 
 ```julia

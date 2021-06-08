@@ -19,7 +19,7 @@ Random.seed!(it.seed)
 no = nothing
 
 #-------------------------------------------------------------------
-# ## Columns
+### Columns
 # Count all the symbols. Keep a sample of the numbers.
 @with_kw mutable struct Some pos=0;txt="";w=1;n=0;_all=[];ok=true end
 @with_kw mutable struct Sym  pos=0;txt="";w=1;n=0;seen=Dict() end
