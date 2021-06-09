@@ -1,9 +1,9 @@
 # vim: set et ts=2 sw=2;
-
+## Peek.jl
 # Non-parametric optimizers
 include("lib.jl")
 
-# ## Config
+### Config
 @with_kw mutable struct It
   data = (file="auto93.csv", dir="data",some=128,best=.75)
   char = (skip='?',less='-',more='+',num=':',klass='!')
@@ -13,7 +13,7 @@ include("lib.jl")
   seed = 1
 end
 
-# ## Globals
+### Globals
 it=It()
 Random.seed!(it.seed)
 no = nothing
@@ -40,13 +40,13 @@ function inc!(i,x)
   end
   x==it.char.skip ? x : begin i.n += 1; inc1!(i,x); x end end
 
-mid(i::Sym) = i.mode 
-var(i::Sym) = sum(-v/i.n*log(2,v/i.n) for (_,v) in i.seen) 
+mid(i::Sym)   = i.mode 
+mid( i::Some) =  per(all(i),.5) 
 
-function mid( i::Some)   a=all(i); per(a,.5) end
-function var( i::Some)   a=all(i); (per(a,.9) - per(a,.1)) / 2.56 end
-function norm(i::Some,x) a=all(i);
-  x==it.char.skip ? x : (x-a[1])/(a[end]-a[1]+1E-32) end 
+var(i::Sym)             = sum(-v/i.n*log(2,v/i.n) for (_,v) in i.seen) 
+var( i::Some, a=all(i)) = (per(a,.9) - per(a,.1)) / 2.56 
+
+norm(i::Some,x,  a=all(i)) = x==it.char.skip ? x : (x-a[1])/(a[end]-a[1]+1E-32) 
 
 function all(i::Some) 
   i._all = i.ok ? i._all : sort(i._all) 
