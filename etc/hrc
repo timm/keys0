@@ -22,7 +22,8 @@ doc() {
    for f in *.jl; do 
      g=$Etc/docs/${f%.jl}.md
      echo "# $f ..." 
-     gawk -f $Etc/etc/2md $f > $g
+     printf "\n---\ntitle: $f\n---\n\n" > $g
+     gawk -f $Etc/etc/2md $f >> $g
    done
    sep=""
    echo "" > $Etc/docs/_includes/localtoc.html
