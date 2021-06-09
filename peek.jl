@@ -41,14 +41,15 @@ function inc!(i,x)
   x==it.char.skip ? x : begin i.n += 1; inc1!(i,x); x end end
 
 mid(i::Sym)   = i.mode 
-mid( i::Some) =  per(all(i),.5) 
+mid( i::Some) = per(all(i),.5) 
 
-var(i::Sym)             = sum(-v/i.n*log(2,v/i.n) for (_,v) in i.seen) 
-var( i::Some, a=all(i)) = (per(a,.9) - per(a,.1)) / 2.56 
+var(i::Sym)            = sum(-v/i.n*log(2,v/i.n) for (_,v) in i.seen) 
+var(i::Some, a=all(i)) = (per(a,.9) - per(a,.1)) / 2.56 
 
-norm(i::Some,x,  a=all(i)) = x==it.char.skip ? x : (x-a[1])/(a[end]-a[1]+1E-32) 
+norm(i::Some,x, a=all(i)) = 
+  x==it.char.skip ? x : (x-a[1])/(a[end]-a[1]+1E-32) 
 
-function all(i::Some) 
+function all(i::Some)  
   i._all = i.ok ? i._all : sort(i._all) 
   i.ok = true
   i._all end
@@ -60,7 +61,7 @@ function combine(i::Some,j::Some, small,lo)
 
 #-------------------------------------------------------------------
 ### Table
-#Load rows, Summarize the columns.
+# Load rows, Summarize the columns.
 @with_kw mutable struct Table ys=[]; xs=[]; rows=[]; cols=[] end
 @with_kw mutable struct Row   has=[]; gt=0; tag=no end
 
@@ -79,8 +80,8 @@ function data(file; t=Table())
     length(t.cols)==0 ? t.cols=cols(a) : push!(t.rows, cells(a)) end
   t end
 
-# -------------------------------------------------------------------
-# ## Classify
+#-------------------------------------------------------------------
+### Classify
 # Score rows by how they are better than others.   
 # Tag the `best` percent rows.
 function tag(t::Table)
@@ -102,8 +103,8 @@ function tag(t::Table)
     row.tag = n > length(t.rows) * it.data.best end
   t end
 
-# -------------------------------------------------------------------
-# ## Discretize
+#-------------------------------------------------------------------
+### Discretize
 # Score rows by how they are better than others.   
 # Tag the `best` percent rows.
 @with_kw mutable struct Span 
