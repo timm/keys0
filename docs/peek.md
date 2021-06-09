@@ -1,4 +1,5 @@
 
+# Peek.jl
  Non-parametric optimizers
 
 ```julia
