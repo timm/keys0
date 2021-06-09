@@ -1,8 +1,6 @@
-
 ---
 title: lib.jl
 ---
-
 
 
 ```julia

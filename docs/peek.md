@@ -1,8 +1,6 @@
-
 ---
 title: peek.jl
 ---
-
 
 ## Peek.jl
  Non-parametric optimizers

@@ -22,7 +22,11 @@ doc() {
    for f in *.jl; do 
      g=$Etc/docs/${f%.jl}.md
      echo "# $f ..." 
-     printf "\n---\ntitle: $f\n---\n\n" > $g
+     cat<<-EOF>$g
+---
+title: $f
+---
+EOF
      gawk -f $Etc/etc/2md $f >> $g
    done
    sep=""
