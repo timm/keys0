@@ -1,9 +1,9 @@
 # vim: set et ts=2 sw=2;
-## Peek.jl
+### Peek.jl
 # Non-parametric optimizers
 include("lib.jl")
 
-### Config
+#### Config
 @with_kw mutable struct It
   data = (file="auto93.csv", dir="data",some=128,best=.75)
   char = (skip='?',less='-',more='+',num=':',klass='!')
@@ -13,13 +13,13 @@ include("lib.jl")
   seed = 1
 end
 
-### Globals
+#### Globals
 it=It()
 Random.seed!(it.seed)
 no = nothing
 
 #-------------------------------------------------------------------
-### Columns
+#### Columns
 # Count all the symbols. Keep a sample of the numbers.
 @with_kw mutable struct Some pos=0;txt="";w=1;n=0;_all=[];ok=true end
 @with_kw mutable struct Sym  pos=0;txt="";w=1;n=0;seen=Dict() end
@@ -60,7 +60,7 @@ function combine(i::Some,j::Some, small,lo)
     inc!(Some(), [i._all;j._all]) end end
 
 #-------------------------------------------------------------------
-### Table
+#### Table
 # Load rows, Summarize the columns.
 @with_kw mutable struct Table ys=[]; xs=[]; rows=[]; cols=[] end
 @with_kw mutable struct Row   has=[]; gt=0; tag=no end
@@ -81,7 +81,7 @@ function data(file; t=Table())
   t end
 
 #-------------------------------------------------------------------
-### Classify
+#### Classify
 # Score rows by how they are better than others.   
 # Tag the `best` percent rows.
 function tag(t::Table)
@@ -104,7 +104,7 @@ function tag(t::Table)
   t end
 
 #-------------------------------------------------------------------
-### Discretize
+#### Discretize
 # Score rows by how they are better than others.   
 # Tag the `best` percent rows.
 @with_kw mutable struct Span 

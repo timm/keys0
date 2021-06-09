@@ -1,6 +1,6 @@
 
 
-```julia
+```lua
 include("peek.jl")
 
 function run() 
