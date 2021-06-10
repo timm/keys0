@@ -1,3 +1,33 @@
+
+if [ -n "$1" ]; then
+tput bold; tput setaf 5
+cat<<'EOF'
+                 _                _ _
+                | |              (_) |                                   ,o88888
+ _ __   ___  ___| | __            _| |                                ,o8888888'
+| '_ \ / _ \/ _ \ |/ /           | | |             ,:o:o:oooo.      ,8O88Pd8888"
+| |_) |  __/  __/   <      _     | | |       ,.::.::o:ooooOoOoO. ,oO8O8Pd888'"
+| .__/ \___|\___|_|\_\    (_)    | |_|     ,.:.::o:ooOoOoOO8O8OOo.8OOPd8O8O"
+| |                             _/ |        .:.::o:ooOoOOOO8OOOOo.FdO8O8"
+|_|                            |__/      . .:.::o:ooOoOO8O888O8O,COCOO"
+                                       , . ..:.::o:ooOoOOOO8OOOOCOCO"
+                                        . ..:.::o:ooOoOoOO8O8OCCCC"o
+                                           . ..:.::o:ooooOoCoCCC"o:o
+                                           . ..:.::o:o:,cooooCo"oo:o:
+                                        `   . . ..:.:cocoooo"'o:o:::'
+                                        .`   . ..::ccccoc"'o:o:o:::'
+                                       :.:.    ,c:cccc"':.:.:.:.:.'
+                                     ..:.:"'`::::c:"'..:.:.:.:.:.'
+                                   ...:.'.:.::::"'    . . . . .'
+                                  .. . ....:."' `   .  . . ''
+                                . . . ...."'
+                                .. . ."'     -hrr-
+                               .
+EOF
+tput srg0
+fi
+
+
 Etc=$(dirname $(cd $( dirname "${BASH_SOURCE[0]}" ) && pwd ))
 
 Etc="$Etc" bash --init-file $Etc/etc/hrc -i
