@@ -84,7 +84,7 @@ mytmux() {
   $Tmux start-server
   sleep 1
   $Tmux new-session -d -s $session  
-  $Tmux send-keys "sleep 0.5; bash $Etc/etc/h 6"   C-m
+  $Tmux send-keys "sleep 0.5; bash $Etc/etc/h 5"   C-m
 
   $Tmux splitw -h -p 20
   $Tmux selectp -t 1

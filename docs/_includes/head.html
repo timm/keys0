@@ -26,10 +26,37 @@
     pre         {font-size: small; background:white;overflow:scroll;padding:1rem;}
     td          {border:1px solid #2d2d2d;padding:10px;}
     img         {height:auto;max-width:100%;}
-    @media(max-width:38rem){
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 812px) 
+  and (-webkit-min-device-pixel-ratio: 3) { 
       .homepage-list li a{width:100%;}
       pre {padding-left: 5px; font-size: 7pt;}
-    }
+
+}
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 812px) 
+  and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: portrait) { 
+      .homepage-list li a{width:100%;}
+      pre {padding-left: 5px; font-size: 7pt;}
+
+}
+
+/* Landscape */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 812px) 
+  and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: landscape) { 
+      .homepage-list li a{width:100%;}
+      pre {padding-left: 5px; font-size: 7pt;}
+
+}
+
    .highlight .hll { background-color: #ffffcc }
    .highlight  { background: #F3F3F3; }
    .highlight .c { color: #008000 } /* Comment */
