@@ -101,6 +101,4 @@ mytmux() {
 
 if [ -z "$TMUX" ]; then
   mytmux
-else
-  hi
 fi
