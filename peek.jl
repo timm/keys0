@@ -24,20 +24,20 @@ no = nothing
 @with_kw mutable struct Sym  pos=0;txt="";w=1;n=0;seen=Dict() end
 @with_kw mutable struct Skip pos=0;txt="";w=1;n=0 end
 
-function inc!(i,x::Array) for y in x inc!(i,y) end; i end
-function inc!(i,x) 
-  inc1!(i::Skip, x) = i 
-  inc1!(i::Sym,  x) = begin
-    new = i.seen[x] = 1 + get(i.seen,x,0) 
-    if new > i.n i.n, i.mode = now, x end end 
-  inc1!(i::Some, x) = begin 
-    m = length(i._all)
-    if m < it.some.max    
-      i.ok=false; push!(i._all, x); 
-    elseif rand() < m/i.n 
-      i.ok=false; i._all[int(m*rand())+1]=x end 
-  end
+inc!(i,x::Array) = begin [inc!(i,y) for y in x]; i end
+inc!(i,x) = begin
   x==it.char.skip ? x : begin i.n += 1; inc1!(i,x); x end end
+
+inc1!(i::Skip, x) = i 
+inc1!(i::Sym,  x) = begin
+  new = i.seen[x] = 1 + get(i.seen,x,0) 
+  if new > i.n i.n, i.mode = now, x end end 
+inc1!(i::Some, x) = begin 
+  m = length(i._all)
+  if m < it.some.max    
+    i.ok=false; push!(i._all, x); 
+  elseif rand() < m/i.n 
+    i.ok=false; i._all[int(m*rand())+1]=x end 
 
 mid(i::Sym)   = i.mode 
 mid( i::Some) = per(all(i),.5) 
@@ -48,12 +48,12 @@ var(i::Some, a=all(i)) = (per(a,.9) - per(a,.1)) / 2.56
 norm(i::Some,x, a=all(i)) = 
   x==it.char.skip ? x : (x-a[1])/(a[end]-a[1]+1E-32) 
 
-function all(i::Some)  
+all(i::Some)  = begin
   i._all = i.ok ? i._all : sort(i._all) 
   i.ok = true
   i._all end
 
-function combine(i::Some,j::Some, small,lo) 
+combine(i::Some,j::Some, small,lo) = begin
   mi, mj = mid(i), mid(j)
   if (abs(mi) - abs(mj) < small) || (mi < lo && mi < lo)
     inc!(Some(), [i._all;j._all]) end end
