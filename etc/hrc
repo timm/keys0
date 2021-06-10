@@ -43,6 +43,35 @@ here() { cd $1; basename `pwd`; }
 
 PROMPT_COMMAND='echo -ne "🧢 $(git branch 2>/dev/null | grep '^*' | colrm 1 2):";PS1="$(here ..)/$(here .):\!\e[m ▶ "'
 
+if [ -n "$Logo" ]; then
+clear
+tput bold; tput setaf 5
+cat<<'EOF'
+                 _                _ _
+                | |              (_) |                                   ,o88888
+ _ __   ___  ___| | __            _| |                                ,o8888888'
+| '_ \ / _ \/ _ \ |/ /           | | |             ,:o:o:oooo.      ,8O88Pd8888"
+| |_) |  __/  __/   <      _     | | |       ,.::.::o:ooooOoOoO. ,oO8O8Pd888'"
+| .__/ \___|\___|_|\_\    (_)    | |_|     ,.:.::o:ooOoOoOO8O8OOo.8OOPd8O8O"
+| |                             _/ |        .:.::o:ooOoOOOO8OOOOo.FdO8O8"
+|_|                            |__/      . .:.::o:ooOoOO8O888O8O,COCOO"
+                                       , . ..:.::o:ooOoOOOO8OOOOCOCO"
+                                        . ..:.::o:ooOoOoOO8O8OCCCC"o
+                                           . ..:.::o:ooooOoCoCCC"o:o
+                                           . ..:.::o:o:,cooooCo"oo:o:
+                                        `   . . ..:.:cocoooo"'o:o:::'
+                                        .`   . ..::ccccoc"'o:o:o:::'
+                                       :.:.    ,c:cccc"':.:.:.:.:.'
+                                     ..:.:"'`::::c:"'..:.:.:.:.:.'
+                                   ...:.'.:.::::"'    . . . . .'
+                                  .. . ....:."' `   .  . . ''
+                                . . . ...."'
+                                .. . ."'     -hrr-
+                               .
+EOF
+tput sgr0
+fi
+
 hi() {
 tput bold; tput setaf 241
 echo "Short cuts:"
@@ -75,5 +104,5 @@ mytmux() {
 if [ -z "$TMUX" ]; then
   mytmux
 else
-  clear; hi
+  hi
 fi
