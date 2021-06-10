@@ -42,7 +42,7 @@ function inc!(i,x)
 mid(i::Sym)   = i.mode 
 mid( i::Some) = per(all(i),.5) 
 
-var(i::Sym)            = sum(-v/i.n*log(2,v/i.n) for (_,v) in i.seen) 
+var(i::Sym) = sum(-v/i.n*log(2,v/i.n) for (_,v) in i.seen) 
 var(i::Some, a=all(i)) = (per(a,.9) - per(a,.1)) / 2.56 
 
 norm(i::Some,x, a=all(i)) = 
