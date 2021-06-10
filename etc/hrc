@@ -45,7 +45,7 @@ PROMPT_COMMAND='echo -ne "🧢 $(git branch 2>/dev/null | grep '^*' | colrm 1 2)
 
 if [ -n "$Logo" ]; then
 clear
-tput bold; tput setaf 3
+tput bold; tput setaf $Logo
 cat<<'EOF'
                  _                _ _
                 | |              (_) |                                   ,o88888
@@ -84,7 +84,7 @@ mytmux() {
   $Tmux start-server
   sleep 1
   $Tmux new-session -d -s $session  
-  $Tmux send-keys "sleep 0.5; bash $Etc/etc/h 1"   C-m
+  $Tmux send-keys "sleep 0.5; bash $Etc/etc/h 6"   C-m
 
   $Tmux splitw -h -p 20
   $Tmux selectp -t 1
