@@ -46,7 +46,6 @@ PROMPT_COMMAND='echo -ne "🔭 $(git branch 2>/dev/null | grep '^*' | colrm 1 2)
 if [ -n "$Logo" ]; then
 clear
 tput bold; tput setaf $Logo
-tput rev 
 cat<<'EOF'
                  _                _ _
                 | |              (_) |                                   ,o88888
