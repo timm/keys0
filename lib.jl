@@ -20,6 +20,8 @@ few(a,n=it.divs.few) =                        #pick many
 
 # ### How to print a struct
 # Skips any fields starting with "`_`".
+oo(x) = println(o(x))
+
 o(i::String)     = i 
 o(i::SubString)  = i 
 o(i::Char)       = string(i) 
@@ -30,7 +32,7 @@ o(i::Dict)       = "{"*join(["$k="*o(v) for (k,v) in i],", ")*"}"
 o(i::Any) = begin
   s, pre="$(typeof(i)){", ""
   for f in sort([x for x in fieldnames(typeof(i)) 
-                  if !("$x"[1] == '_')])
+                  if ("$x"[1] != '_')])
     s = s * pre * "$f=$(o(getfield(i,f)))"
     pre=", " end
   return s * "}" end

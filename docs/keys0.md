@@ -1,9 +1,17 @@
-# vim: set et ts=2 sw=2;
-# Non-parametric optimizers
+---
+title: keys0.jl
+---
+
+ Non-parametric optimizers
+
+```julia
 println("# peek.jl ...")
 include("lib.jl")
+```
 
-#### Config
+### Config
+
+```julia
 @with_kw mutable struct It
   data = (file="auto93.csv", dir="data",some=128,best=.75)
   char = (skip='?',less='-',more='+',num=':',klass='!')
@@ -12,15 +20,21 @@ include("lib.jl")
   divs = (few=126)
   seed = 1
 end
+```
 
-#### Globals
+### Globals
+
+```julia
 it=It()
 Random.seed!(it.seed)
 no = nothing
+```
 
-#-------------------------------------------------------------------
-#### Columns
-# Count all the symbols. Keep a sample of the numbers.
+-------------------------------------------------------------------
+### Columns
+ Count all the symbols. Keep a sample of the numbers.
+
+```julia
 @with_kw mutable struct Some pos=0;txt="";w=1;n=0;_all=[];ok=true end
 @with_kw mutable struct Sym  pos=0;txt="";w=1;n=0;seen=Dict() end
 @with_kw mutable struct Skip pos=0;txt="";w=1;n=0 end
@@ -58,10 +72,13 @@ combine(i::Some,j::Some, small,lo) = begin
   mi, mj = mid(i), mid(j)
   if (abs(mi) - abs(mj) < small) || (mi < lo && mi < lo)
     inc!(Some(), [i._all;j._all]) end end
+```
 
-#-------------------------------------------------------------------
-#### Table
-# Load rows, Summarize the columns.
+-------------------------------------------------------------------
+### Table
+ Load rows, Summarize the columns.
+
+```julia
 @with_kw mutable struct Table ys=[]; xs=[]; rows=[]; cols=[] end
 @with_kw mutable struct Row   has=[]; gt=0; tag=no end
 
@@ -81,11 +98,14 @@ function  col(t::Table;txt="", pos=0, c=it.char) = begin
   push!(at, now)  
   now
 end
+```
 
-#-------------------------------------------------------------------
-#### Classify
-# Score rows by how they are better than others.   
-# Tag the `best` percent rows.
+-------------------------------------------------------------------
+### Classify
+ Score rows by how they are better than others.   
+ Tag the `best` percent rows.
+
+```julia
 function tag(t::Table)
   function gt(row1, row2)
     "Zitler's continous domination predicate (from IBEA, 2005)."
@@ -104,11 +124,14 @@ function tag(t::Table)
   for (n, row) in enumerate(sort(t.rows, by = x -> x.gt))
     row.tag = n > length(t.rows) * it.data.best end
   t end
+```
 
-#-------------------------------------------------------------------
-#### Discretize
-# Score rows by how they are better than others.   
-# Tag the `best` percent rows.
+-------------------------------------------------------------------
+### Discretize
+ Score rows by how they are better than others.   
+ Tag the `best` percent rows.
+
+```julia
 @with_kw mutable struct Span 
    lo=typemax(Int); hi=typemin(Int); _has=[] end
 
@@ -116,8 +139,11 @@ o(i::Span) =
   if     i.lo <= typemin(Int) "<= $(i.hi)" 
   elseif i.hi <= typemax(Int) ">= $(i.lp)" 
   else   "[$(i.lo)..$(i.hi)]" end
+```
 
-#function discretize(x::Some, t:Table)
+function discretize(x::Some, t:Table)
+
+```julia
   # function div(xsmall,ysmall,ymin,xy) 
   #   n = length(xy) * the data.xchop
   #   #while n < 4 && n <= length(xy)/2 n+= 1.2 end
@@ -159,3 +185,4 @@ o(i::Span) =
   # tmp[1].lo = typemin(Int)
   # tmp[end].hi = typemax(Int)
   # tmp end 
+```

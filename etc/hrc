@@ -6,8 +6,8 @@ alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias gp="git add *;git commit -am save;git push;git status"
-alias julia="julia -O0 --compile=min --startup=no  "
 alias hello="git pull"
+alias julia="julia -O0 --compile=min --startup=no "
 alias bye="gp; tmux detach"
 alias h="history"
 alias hh=". $Etc/etc/h"
@@ -15,6 +15,12 @@ alias ls="ls -G"
 alias tmux="tmux -f $Etc/etc/tmux-conf "
 alias vi="vim -u $Etc/etc/vimrc "
 alias vims="vim +PluginInstall +qall"         
+
+jj() { 
+  f=$1
+  shift
+  \julia -O0 --compile=min --startup=no $f.jl $*
+}
 
 doc() {
    mkdir  -p  $Etc/docs/_includes
