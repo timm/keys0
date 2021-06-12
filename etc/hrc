@@ -41,7 +41,7 @@ EOF
 
 here() { cd $1; basename `pwd`; }
 
-PROMPT_COMMAND='echo -ne "🔭 $(git branch 2>/dev/null | grep '^*' | colrm 1 2):";PS1="$(here ..)/$(here .):\!\e[m ▶ "'
+PROMPT_COMMAND='echo -ne "❓ $(git branch 2>/dev/null | grep '^*' | colrm 1 2):";PS1="$(here ..)/$(here .):\!\e[m ▶ "'
 
 if [ -n "$Logo" ]; then
 clear
@@ -50,7 +50,7 @@ cat<<'EOF'
                  _                _ _
                 | |              (_) |                                   ,o88888
  _ __   ___  ___| | __            _| |                                ,o8888888'
-| '_ \ / _ \/ _ \ |/ /           | | |             ,:o:o:oooo.      ,8O88Pd8888"
+| '_ \ / _ \/ _ \ |/ /           | | |           ,:o:o:oooo.      ,8O88Pd8888"
 | |_) |  __/  __/   <      _     | | |       ,.::.::o:ooooOoOoO. ,oO8O8Pd888'"
 | .__/ \___|\___|_|\_\    (_)    | |_|     ,.:.::o:ooOoOoOO8O8OOo.8OOPd8O8O"
 | |                             _/ |        .:.::o:ooOoOOOO8OOOOo.FdO8O8"
@@ -68,6 +68,7 @@ cat<<'EOF'
                                 . . . ...."'
                                 .. . ."'     -hrr-
                                .
+
 EOF
 tput sgr0
 

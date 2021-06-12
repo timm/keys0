@@ -37,7 +37,7 @@ inc1!(i::Some, x) = begin
   if m < it.some.max    
     i.ok=false; push!(i._all, x); 
   elseif rand() < m/i.n 
-    i.ok=false; i._all[int(m*rand())+1]=x end 
+    i.ok=false; i._all[int(m*rand())+1]=x end  end
 
 mid(i::Sym)   = i.mode 
 mid( i::Some) = per(all(i),.5) 

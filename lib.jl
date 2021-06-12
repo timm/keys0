@@ -1,10 +1,8 @@
 # vim: set et ts=2 sw=2;
 
 # ## Uses
-using Test
 using Random
 using Parameters
-using ResumableFunctions
 
 # -------------------------------------------------------------------
 # ## Misc Utils
@@ -37,6 +35,7 @@ o(i::Any) = begin
 
 # ### How to read a CSV File
 # Skip blank lines. Coerce numeric strings to numbers.
+using ResumableFunctions
 @resumable function csv(file;zap=r"(\s+|#.*)") #iterate on file
   b4=""
   for line in eachline(file)
