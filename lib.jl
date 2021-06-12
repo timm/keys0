@@ -1,15 +1,17 @@
 # vim: set et ts=2 sw=2;
 
 # ## Uses
+println("# lib.jl ...")
 using Random
 using Parameters
 
 # -------------------------------------------------------------------
 # ## Misc Utils
 # ### One-liners.
+within(m,n,x) = x<m ? m : (x>n ? n : x)
 same(s)  = s                                  #noop       
 int(x)   = floor(Int,x)                       #round
-per(a,n) = a[int(length(a)*n)+1]                #percentile
+per(a,n) = a[within(1,length(a), int(length(a)*n))]  #percentile
 thing(x) = try parse(Float64,x) catch _ x end #coerce
 say(i)   = println(o(i))                      #print+nl
 any(a)   = a[ int(length(a) * rand()) + 1 ]   #pick any one
@@ -46,5 +48,3 @@ using ResumableFunctions
       else
         @yield [thing(x) for x in split(b4*line,",")]
         b4 = "" end end end end  
-
-

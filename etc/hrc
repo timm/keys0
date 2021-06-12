@@ -47,28 +47,21 @@ if [ -n "$Logo" ]; then
 clear
 tput bold; tput setaf $Logo
 cat<<'EOF'
-                 _                _ _
-                | |              (_) |                                   ,o88888
- _ __   ___  ___| | __            _| |                                ,o8888888'
-| '_ \ / _ \/ _ \ |/ /           | | |           ,:o:o:oooo.      ,8O88Pd8888"
-| |_) |  __/  __/   <      _     | | |       ,.::.::o:ooooOoOoO. ,oO8O8Pd888'"
-| .__/ \___|\___|_|\_\    (_)    | |_|     ,.:.::o:ooOoOoOO8O8OOo.8OOPd8O8O"
-| |                             _/ |        .:.::o:ooOoOOOO8OOOOo.FdO8O8"
-|_|                            |__/      . .:.::o:ooOoOO8O888O8O,COCOO"
-                                       , . ..:.::o:ooOoOOOO8OOOOCOCO"
-                                        . ..:.::o:ooOoOoOO8O8OCCCC"o
-                                           . ..:.::o:ooooOoCoCCC"o:o
-                                           . ..:.::o:o:,cooooCo"oo:o:
-                                        `   . . ..:.:cocoooo"'o:o:::'
-                                        .`   . ..::ccccoc"'o:o:o:::'
-                                       :.:.    ,c:cccc"':.:.:.:.:.'
-                                     ..:.:"'`::::c:"'..:.:.:.:.:.'
-                                   ...:.'.:.::::"'    . . . . .'
-                                  .. . ....:."' `   .  . . ''
-                                . . . ...."'
-                                .. . ."'     -hrr-
-                               .
-
+                                       _.oo.
+                 _.u[[/;:,.         .odMMMMMM'
+              .o888UU[[[/;:-.  .o@P^    MMM^
+             oN88888UU[[[/;::-.        dP^
+            dNMMNN888UU[[[/;:--.   .o@P^
+           ,MMMMMMN888UU[[/;::-. o@^
+           NNMMMNN888UU[[[/~.o@P^     _                  _____           _ _ 
+           888888888UU[[[/o@^-..     | |                |  _  |         (_) |
+          oI8888UU[[[/o@P^:--..      | | _____ _   _ ___| |/' |          _| |
+       .@^  YUU[[[/o@^;::---..       | |/ / _ \ | | / __|  /| |         | | |
+     oMP     ^/o@P^;:::---..         |   <  __/ |_| \__ \ |_/ /   _     | | |
+  .dMMM    .o@^ ^;::---...           |_|\_\___|\__, |___/\___/   (_)    | |_|
+ dMMMMMMM@^`       `^^^^                        __/ |                  _/ |  
+YMMMUP^                                        |___/                  |__/   
+ ^^
 EOF
 tput sgr0
 

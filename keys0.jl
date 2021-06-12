@@ -1,5 +1,6 @@
 # vim: set et ts=2 sw=2;
 # Non-parametric optimizers
+println("# peek.jl ...")
 include("lib.jl")
 
 #### Config
