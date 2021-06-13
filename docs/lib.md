@@ -9,10 +9,8 @@ title: lib.jl
  ## Uses
 
 ```julia
-using Test
 using Random
 using Parameters
-using ResumableFunctions
 ```
 
  -------------------------------------------------------------------
@@ -54,6 +52,7 @@ o(i::Any) = begin
  Skip blank lines. Coerce numeric strings to numbers.
 
 ```julia
+using ResumableFunctions
 @resumable function csv(file;zap=r"(\s+|#.*)") #iterate on file
   b4=""
   for line in eachline(file)
