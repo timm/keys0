@@ -9,6 +9,10 @@ title: lib.jl
  ## Uses
 
 ```julia
+<<<<<<< HEAD
+=======
+println("# lib.jl ...")
+>>>>>>> 72d1f1b41ae3a3583944e77e50c5e4ddfe3e2cf3
 using Random
 using Parameters
 ```
@@ -18,9 +22,10 @@ using Parameters
  ### One-liners.
 
 ```julia
+within(m,n,x) = x<m ? m : (x>n ? n : x)
 same(s)  = s                                  #noop       
 int(x)   = floor(Int,x)                       #round
-per(a,n) = a[int(length(a)*n)+1]                #percentile
+per(a,n) = a[within(1,length(a), int(length(a)*n))]  #percentile
 thing(x) = try parse(Float64,x) catch _ x end #coerce
 say(i)   = println(o(i))                      #print+nl
 any(a)   = a[ int(length(a) * rand()) + 1 ]   #pick any one
@@ -32,6 +37,8 @@ few(a,n=it.divs.few) =                        #pick many
  Skips any fields starting with "`_`".
 
 ```julia
+oo(x) = println(o(x))
+
 o(i::String)     = i 
 o(i::SubString)  = i 
 o(i::Char)       = string(i) 
@@ -42,7 +49,7 @@ o(i::Dict)       = "{"*join(["$k="*o(v) for (k,v) in i],", ")*"}"
 o(i::Any) = begin
   s, pre="$(typeof(i)){", ""
   for f in sort([x for x in fieldnames(typeof(i)) 
-                  if !("$x"[1] == '_')])
+                  if ("$x"[1] != '_')])
     s = s * pre * "$f=$(o(getfield(i,f)))"
     pre=", " end
   return s * "}" end
@@ -63,5 +70,4 @@ using ResumableFunctions
       else
         @yield [thing(x) for x in split(b4*line,",")]
         b4 = "" end end end end  
-
 ```

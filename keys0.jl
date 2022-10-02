@@ -1,5 +1,6 @@
 # vim: set et ts=2 sw=2;
 # Non-parametric optimizers
+println("# peek.jl ...")
 include("lib.jl")
 
 #### Config
@@ -7,7 +8,7 @@ include("lib.jl")
   data = (file="auto93.csv", dir="data",some=128,best=.75)
   char = (skip='?',less='-',more='+',num=':',klass='!')
   str  = (skip="?")
-  some = (max=64,bins=.5, cohen=0.3, trivial=1.05)
+  some = (max=256,bins=.5, cohen=0.3, trivial=1.05)
   divs = (few=126)
   seed = 1
 end
@@ -26,7 +27,7 @@ no = nothing
 
 inc!(i,x::Array) = begin [inc!(i,y) for y in x]; i end
 inc!(i,x) = begin
-  x==it.char.skip ? x : begin i.n += 1; inc1!(i,x); x end end
+  x==it.char.skip ? x : (i.n += 1; inc1!(i,x)); x end
 
 inc1!(i::Skip, x) = i 
 inc1!(i::Sym,  x) = begin
@@ -42,8 +43,8 @@ inc1!(i::Some, x) = begin
 mid(i::Sym)   = i.mode 
 mid( i::Some) = per(all(i),.5) 
 
-var(i::Sym) = sum(-v/i.n*log(2,v/i.n) for (_,v) in i.seen) 
-var(i::Some, a=all(i)) = (per(a,.9) - per(a,.1)) / 2.56 
+var(i::Sym) = sum(-v/i.n*log(v/i.n)/log(2) for (_,v) in i.seen)
+var(i::Some,a=all(i)) = (per(a,.9) - per(a,.1)) / 2.56  
 
 norm(i::Some,x, a=all(i)) = 
   x==it.char.skip ? x : (x-a[1])/(a[end]-a[1]+1E-32) 
@@ -65,19 +66,21 @@ combine(i::Some,j::Some, small,lo) = begin
 @with_kw mutable struct Row   has=[]; gt=0; tag=no end
 
 function data(file; t=Table())
-  col(;txt="", pos=0, c=it.char) = begin
-    what = c.less in txt||c.more in txt||c.num in txt ? Some : Sym
-    what = c.skip in txt ? Skip : what
-    now = what(txt=txt, pos=pos, w= c.less in txt ? -1 : 1) 
-    at  = c.less in txt||c.more in txt||c.klass in txt ? t.ys : t.xs
-    push!(at, now)  
-    now
-  end
-  cols(a)  = [col(txt=txt, pos=pos) for (pos,txt) in enumerate(a)]
-  cells(a) = Row(has= [inc!(c, a[c.pos]) for c in t.cols])
-  for a in csv(it.data.dir * "/" * file)
-    length(t.cols)==0 ? t.cols=cols(a) : push!(t.rows, cells(a)) end
+  for a in csv(it.data.dir * "/" * file) inc!(t,a)
   t end
+
+inc!( t::Table,a) = length(t.cols)==0 ? t.cols=cols(t,a) : push!(t.rows, cells(t,a)) 
+cells(t::Table,a) = Row(has= [inc!(c, a[c.pos]) for c in t.cols])
+cols(t::Table,a)  = [col(txt=txt, pos=pos) for (pos,txt) in enumerate(a)]
+
+function  col(t::Table;txt="", pos=0, c=it.char) = begin
+  what = c.less in txt||c.more in txt||c.num in txt ? Some : Sym
+  what = c.skip in txt ? Skip : what
+  now  = what(txt=txt, pos=pos, w= c.less in txt ? -1 : 1) 
+  at   = c.less in txt||c.more in txt||c.klass in txt ? t.ys : t.xs
+  push!(at, now)  
+  now
+end
 
 #-------------------------------------------------------------------
 #### Classify
